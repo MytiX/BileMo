@@ -1,11 +1,11 @@
-FROM php:8.1-apache
+FROM php:8.1
 
 ENV COMPOSER_HOME=/usr/local/lib/composer
 
-RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+RUN echo 'deb [trusted=yes] https://repo.symfony.com/apt/ /' | tee /etc/apt/sources.list.d/symfony-cli.list
 
 RUN apt update \
-    && apt install -y curl libcurl4-openssl-dev libicu-dev libxml2-dev libzip-dev unzip wget zip
+    && apt install -y curl libcurl4-openssl-dev libicu-dev libxml2-dev libzip-dev unzip wget zip symfony-cli
 
 COPY install_composer.sh /usr/local/bin/
 RUN mkdir -p $COMPOSER_HOME
@@ -27,4 +27,4 @@ WORKDIR /var/www/
 
 ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
 
-CMD ["apache2-foreground"]
+CMD ["symfony", "serve", "--port=8000"]
