@@ -12,6 +12,6 @@ class AuthenticationFailureHandler implements AuthenticationFailureHandlerInterf
 {
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): JsonResponse
     {
-        dd('Failure');
+        return new JsonResponse('Unauthorized', Response::HTTP_UNAUTHORIZED);
     }
 }
